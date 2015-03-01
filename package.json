@@ -1,0 +1,20 @@
+{
+  "name": "crab-event",
+  "version": "0.0.1",
+  "description": "Asynchronous event handling using ES6 promises",
+  "keywords": [
+    "event",
+    "promise"
+  ],
+  "author": "bergi@axolotlfarm.org",
+  "license": "MIT",
+  "main": "crab-event.js",
+  "devDependencies": {
+    "es6-promise": "2.*",
+    "mocha": "2.*"
+  },
+  "readmeFilename": "README.md",
+  "repository": "git://github.com/bergos/crab-event.git",
+  "homepage": "https://github.com/bergos/crab-event",
+  "bugs": "https://github.com/bergos/crab-event/issues"
+}
