@@ -1,6 +1,6 @@
 {
   "name": "crab-event",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Asynchronous event handling using ES6 promises",
   "keywords": [
     "event",
