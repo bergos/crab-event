@@ -46,13 +46,25 @@
 
   Event.prototype._removeEventListener = function (listener) {
     var
-      index;
+      index = this.listeners().indexOf(listener);
 
-    if ((index = this.listeners().indexOf(listener)) < 0) {
+    if (index < 0) {
       return;
     }
 
     this._listeners.splice(index, 1);
+  };
+
+  Event.prototype._once = function (listener) {
+    var self = this;
+
+    var remover = function () {
+      self._removeEventListener(listener);
+      self._removeEventListener(remover);
+    };
+
+    self._addEventListener(listener);
+    self._addEventListener(remover);
   };
 
   Event.prototype._dispatchEvent = function () {
@@ -140,6 +152,18 @@
     }
   };
 
+  Events.prototype._once = function (topic, listener) {
+    var self = this;
+
+    var remover = function () {
+      self._removeEventListener(topic, listener);
+      self._removeEventListener(topic, remover);
+    };
+
+    self._addEventListener(topic, listener);
+    self._addEventListener(topic, remover);
+  };
+
   Events.prototype._dispatchEvent = function (topic) {
     var
       event,
@@ -201,6 +225,7 @@
   Event.options.methods = {
     _addEventListener: ['on'],
     _removeEventListener: ['off'],
+    _once: ['once'],
     _dispatchEvent: ['trigger']
   };
 

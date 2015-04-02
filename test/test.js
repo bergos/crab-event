@@ -148,6 +148,22 @@ describe('Event', function () {
       .then(function () { done('reached resolve branch'); })
       .catch(function (error) { done(); });
   });
+
+  it('should handle once listener only once', function () {
+    var
+      test = new Event(),
+      counter = 0;
+
+    test.once(function () {
+      counter++;
+    });
+
+    test.trigger()
+      .then(function () { test.trigger(); })
+      .then(function () { assert(counter === 1); })
+      .then(function () { done(); })
+      .catch(function (error) { done(error); });
+  });
 });
 
 
@@ -284,6 +300,22 @@ describe('Events', function () {
 
     test.trigger('test')
       .then(function () { assert(processed) })
+      .then(function () { done(); })
+      .catch(function (error) { done(error); });
+  });
+
+  it('should handle once listener only once', function () {
+    var
+      test = new Events(),
+      counter = 0;
+
+    test.once('test', function () {
+      counter++;
+    });
+
+    test.trigger('test')
+      .then(function () { test.trigger('test'); })
+      .then(function () { assert(counter === 1); })
       .then(function () { done(); })
       .catch(function (error) { done(error); });
   });
