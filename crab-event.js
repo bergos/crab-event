@@ -73,17 +73,24 @@
       current = 0,
       parameters = Array.prototype.slice.call(arguments);
 
+    // create a copy of listeners, so we don't get into trouble if the list changes
+    var listeners = self.listeners().slice();
+
     return new Promise(function (resolve, reject) {
       var next = function () {
-        var
-          listener;
+        var listener = null;
 
-        if (current === self.listeners().length) {
+        // loop until we found a listener that wasn't removed in the meantime
+        do {
+          listener = listeners[current++];
+        } while(listeners.indexOf(listener) < 0 && current < listeners.length);
+
+        // resolve if no further listener was found
+        if (!listener) {
           return resolve();
         }
 
-        listener = self.listeners()[current++];
-
+        // use callback api if listener has more parameters than dispatched
         if (listener.length > parameters.length) {
           try {
             listener.apply(self, parameters.concat([next]));
