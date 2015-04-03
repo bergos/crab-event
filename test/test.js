@@ -164,6 +164,24 @@ describe('Event', function () {
       .then(function () { done(); })
       .catch(function (error) { done(error); });
   });
+
+  it('should work with mixin object', function (done) {
+    var
+      test = {},
+      processed = false;
+
+    var callback = function () { processed = true; };
+
+    Event.mixin(test);
+
+    test.on(callback);
+
+    test.trigger()
+      .then(function () { assert(processed) })
+      .then(function () { test.off(callback); })
+      .then(function () { done(); })
+      .catch(function (error) { done(error); });
+  });
 });
 
 
@@ -316,6 +334,24 @@ describe('Events', function () {
     test.trigger('test')
       .then(function () { test.trigger('test'); })
       .then(function () { assert(counter === 1); })
+      .then(function () { done(); })
+      .catch(function (error) { done(error); });
+  });
+
+  it('should work with mixin object', function (done) {
+    var
+      test = {},
+      processed = false;
+
+    var callback = function () { processed = true; };
+
+    Events.mixin(test);
+
+    test.on('test', callback);
+
+    test.trigger('test')
+      .then(function () { assert(processed) })
+      .then(function () { test.off(callback, 'test'); })
       .then(function () { done(); })
       .catch(function (error) { done(error); });
   });

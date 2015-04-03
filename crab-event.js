@@ -188,13 +188,13 @@
   Events.mixin = function (target) {
     if (typeof target === 'function') {
       Object.keys(Events.prototype).forEach(function (property) {
-        target.prototype[property] = Event.prototype[property];
+        target.prototype[property] = Events.prototype[property];
       });
 
       createAlternatives(Event.options.methods, target.prototype);
     } else {
       Object.keys(Events.prototype).forEach(function (property) {
-        target[property] = Event.prototype[property];
+        target[property] = Events.prototype[property];
       });
 
       createAlternatives(Event.options.methods, target);
